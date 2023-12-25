@@ -1,16 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    res.render("client/pages/product/index.pug");
-});
+const controller = require("../../controller/client/product.controller.js");
 
-// router.get("/detail", (req, res) => {
-//     res.send("Chi tiet san pham");
-// });
+router.get("/", controller.index);
 
-// router.get("/edit", (req, res) => {
-    
-// });
+router.get("/detail", controller.detail);
+
+router.get("/edit", controller.edit);
 
 module.exports = router;
