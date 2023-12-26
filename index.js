@@ -7,6 +7,7 @@ dotenv.config();
 database.connect();
 
 const routesClient = require("./routes/client/index.route.js");
+const routesAdmin = require("./routes/admin/index.route.js");
 
 const app = express();
 const port = process.env.PORT;
@@ -17,6 +18,7 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 
 routesClient(app);
+routesAdmin(app);
 
 app.listen(port, () => {
     console.log(`App listening on prot ${port}`);
