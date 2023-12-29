@@ -19,7 +19,6 @@ if(buttonsStatus.length > 0) {
 // End Button Status
 
 //Form Search
-
 const formSearch = document.querySelector("#form-search");
 if(formSearch){
   let url = new URL(window.location.href);
@@ -37,5 +36,24 @@ if(formSearch){
     window.location.href = url.href;
   });
 }
-
 //End Form Search
+
+//Pagination
+const buttonsPagination = document.querySelectorAll("[button-pagination]");
+if(buttonsPagination.length > 0){
+  buttonsPagination.forEach((button) => {
+    button.addEventListener("click", () => {
+      let url = new URL(window.location.href);
+      const page = button.getAttribute("button-pagination");
+
+      if(page) {
+        url.searchParams.set("page", page);
+      } else {
+        url.searchParams.delete("page");
+      }
+      
+      window.location.href = url.href;
+    });
+  });
+}
+//End Pagination
