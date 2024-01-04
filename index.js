@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
+var methodOverride = require('method-override')
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ const port = process.env.PORT;
 
 app.set("views", "./views");
 app.set("view engine", "pug");
-
+app.use(methodOverride('_method'))
 app.use(express.static("public"));
 
 //App global variable
