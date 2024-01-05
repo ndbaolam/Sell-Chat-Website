@@ -15,4 +15,9 @@ router.delete(
     controller.deleteItem
 );
 
+router.patch(
+    "/change-multi", 
+    controller.changeMulti
+);
+
 module.exports = router;

@@ -81,4 +81,26 @@ module.exports.deleteItem = async (req, res) => {
     }
   
     res.redirect("back");
-  }
+}
+
+//[GET] /admin/product/change-multi
+module.exports.changeMulti = async (req, res) => {
+    const type = req.body.type;
+    const ids = req.body.ids.split(", ");
+
+    switch (type) {
+        case "inactive":
+        case "active":
+            await Product.updateMany({
+                _id: { $in: ids }
+                //Tìm ra các _id có ở bên trong mảng ids
+            }, {
+                status: type
+            });
+            break;    
+        default: 
+            break;
+    }
+
+    res.redirect("back");
+}
