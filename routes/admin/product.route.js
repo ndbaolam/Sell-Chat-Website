@@ -10,4 +10,9 @@ router.patch(
     controller.changeStatus
 );
 
+router.delete(
+    "/delete/:id", 
+    controller.deleteItem
+);
+
 module.exports = router;

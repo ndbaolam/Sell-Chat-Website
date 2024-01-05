@@ -20,6 +20,11 @@ block main
             table.table.table-hover.table-sm
                 thead
                     tr
+                        td 
+                            input(
+                                type="checkbox"
+                                name="checkall"
+                            )
                         th STT
                         th Hình ảnh
                         th Tiêu đề
@@ -30,6 +35,11 @@ block main
                 tbody
                     each item, index in products
                         tr 
+                            td
+                                input(
+                                    type="checkbox"
+                                    name=id
+                                )
                             td #{index + 1}
                             td
                                 img(
@@ -59,7 +69,11 @@ block main
                                     ) Dừng hoạt động
                             td
                                 button(class="btn btn-warning btn-sm") Sửa
-                                button(class="btn btn-danger btn-sm ml-1") Xóa
+                                button(                                    
+                                    data-id=item.id
+                                    class="btn btn-danger btn-sm ml-1"
+                                    button-delete
+                                ) Xóa
 
     +pagination(pagination)
 
@@ -69,3 +83,10 @@ block main
         method="POST"
         data-path=`/${prefixAdmin}/products/change-status`
     ) 
+
+    form(
+        form-delete-item
+        action=""
+        method="POST"
+        data-path=`/${prefixAdmin}/products/delete`
+    )
