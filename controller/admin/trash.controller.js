@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
         //End Filter
 
         const find = {
-            deleted: false,
+            deleted: true,
         }
 
         if(req.query.status){
@@ -33,8 +33,8 @@ module.exports.index = async (req, res) => {
             .limit(objectPagination.limitItems)
             .skip(objectPagination.skip);
 
-        res.render("admin/pages/products/index.pug", {
-            pageTitle: "Trang tong quan san pham",
+        res.render("admin/pages/trash-items/index.pug", {
+            pageTitle: "Danh sách sản phẩm đã xoá",
             products: products,
             filterState: filterState,
             keyword: req.query.keyword,
@@ -42,43 +42,18 @@ module.exports.index = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.redirect(`/${systemConfig.prefixAdmin}/products`);
+        res.redirect(`/${systemConfig.prefixAdmin}/trash-items`);
     }
 };
 
-//[GET] /admin/product/change-status/:status/:id
-module.exports.changeStatus = async (req, res) => {
-    console.log(req.params);
-    const status = req.params.status;
+module.exports.recoverItem = async (req, res) => {
     const id = req.params.id;
 
     await Product.updateOne({
         _id: id,
     }, {
-        status: status
+        deleted: false
     });
 
     res.redirect("back");
 }
-
-// [DELETE] /admin/products/delete/:id
-module.exports.deleteItem = async (req, res) => {
-    try {
-      const id = req.params.id;
-  
-      // await Product.deleteOne({
-      //   _id: id
-      // });
-  
-      await Product.updateOne({
-        _id: id
-      }, {
-        deleted: true,
-        deletedAt: new Date()
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  
-    res.redirect("back");
-  }
