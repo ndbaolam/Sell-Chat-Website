@@ -30,6 +30,9 @@ module.exports.index = async (req, res) => {
         //End Pagination
 
         const products = await Product.find(find)
+            .sort({
+                position: "desc"
+            })
             .limit(objectPagination.limitItems)
             .skip(objectPagination.skip);
 
@@ -97,7 +100,17 @@ module.exports.changeMulti = async (req, res) => {
             }, {
                 status: type
             });
-            break;    
+            break;
+            
+        case "delete-all":
+            await Product.updateMany({
+                _id: { $in: ids }
+            }, {
+                deleted: true,
+                deletedAt: new Date()
+            });
+            break;
+
         default: 
             break;
     }

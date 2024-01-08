@@ -30,6 +30,9 @@ module.exports.index = async (req, res) => {
         //End Pagination
 
         const products = await Product.find(find)
+            .sort({
+                position: "desc"
+            })
             .limit(objectPagination.limitItems)
             .skip(objectPagination.skip);
 

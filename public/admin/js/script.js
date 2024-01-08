@@ -109,8 +109,10 @@ if(buttonsDelete.length > 0){
 //checkbox multi
 const checkboxMulti = document.querySelector("[checkbox-multi]"); 
 if(checkboxMulti){
-  const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']");
-  const inputsId = checkboxMulti.querySelectorAll("input[name='id']");
+  const inputCheckAll = checkboxMulti
+                          .querySelector("input[name='checkall']");
+  const inputsId = checkboxMulti
+                    .querySelectorAll("input[name='id']");
 
   inputCheckAll.addEventListener("click", () => {
     if(inputCheckAll.checked){
@@ -145,8 +147,18 @@ if(formChangeMulti){
   formChangeMulti.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    console.log(event);
+    const type = event.target.elements.type.value;
+
+    if(type == "delete-all") {
+      const isConfirm = confirm("Bạn có chắc muốn xóa những bản ghi này?");
+      if(!isConfirm) {
+        return;
+      }
+    }
+
     const inputsChecked = document.querySelectorAll("input[name='id']:checked");
-    
+
     if(inputsChecked.length > 0){
       const ids = [];
       const inputIds = formChangeMulti.querySelector("input[name='ids']");
