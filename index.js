@@ -2,8 +2,11 @@ const express = require("express");
 const dotenv = require("dotenv");
 const database = require("./config/database");
 const systemConfig = require("./config/system");
-const bodyParser = require('body-parser')
-var methodOverride = require('method-override')
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
+const flash = require('express-flash'); 
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 dotenv.config();
 
@@ -19,6 +22,12 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 app.use(methodOverride('_method'))
 app.use(express.static("public"));
+
+//flash
+app.use(cookieParser('BaoLamIuMinhAnh'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+//End flash
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))

@@ -3,6 +3,7 @@ const filterStateHelper = require("../../helpers/filter-state.helper");
 const paginationHelper = require("../../helpers/pagination.helper");
 const systemConfig = require("../../config/system");
 
+//[GET] /admin/products
 module.exports.index = async (req, res) => {
     try {
         //Filter
@@ -49,9 +50,8 @@ module.exports.index = async (req, res) => {
     }
 };
 
-//[GET] /admin/product/change-status/:status/:id
+//[PATCH] /admin/product/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
-    console.log(req.params);
     const status = req.params.status;
     const id = req.params.id;
 
@@ -60,6 +60,8 @@ module.exports.changeStatus = async (req, res) => {
     }, {
         status: status
     });
+
+    req.flash('success', 'Cập nhật trạng thái thành công!');
 
     res.redirect("back");
 }
@@ -79,6 +81,8 @@ module.exports.deleteItem = async (req, res) => {
         deleted: true,
         deletedAt: new Date()
       });
+
+      req.flash('success', 'Xoá Sản phẩm thành công!');
     } catch (error) {
       console.log(error);
     }
@@ -86,7 +90,7 @@ module.exports.deleteItem = async (req, res) => {
     res.redirect("back");
 }
 
-//[GET] /admin/product/change-multi
+//[PATCH] /admin/product/change-multi
 module.exports.changeMulti = async (req, res) => {
     const type = req.body.type;
     const ids = req.body.ids.split(", ");
@@ -100,6 +104,8 @@ module.exports.changeMulti = async (req, res) => {
             }, {
                 status: type
             });
+
+            req.flash('success', 'Cập nhật trạng thái thành công!');
             break;
             
         case "delete-all":
@@ -109,6 +115,8 @@ module.exports.changeMulti = async (req, res) => {
                 deleted: true,
                 deletedAt: new Date()
             });
+            
+            req.flash('success', 'Xoá Sản phẩm thành công!');
             break;
 
         default: 
