@@ -118,7 +118,20 @@ module.exports.changeMulti = async (req, res) => {
 
             req.flash('success', 'Xoá Sản phẩm thành công!');
             break;
+        
+        case "change-position":
+            for (const item of ids) {
+                let [id, position] = item.split("-");
+                position = parseInt(position);
 
+                await Product.updateOne({
+                _id: id
+                }, {
+                position: position
+                });
+            }
+            break;
+            
         default: 
             break;
     }

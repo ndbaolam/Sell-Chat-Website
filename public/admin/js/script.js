@@ -141,31 +141,37 @@ if(checkboxMulti){
 }
 //End checkbox multi
 
-//Form Change Multi
+// form-change-multi
 const formChangeMulti = document.querySelector("[form-change-multi]");
-if(formChangeMulti){
+if (formChangeMulti) {
   formChangeMulti.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    console.log(event);
     const type = event.target.elements.type.value;
 
-    if(type == "delete-all") {
+    if (type == "delete-all") {
       const isConfirm = confirm("Bạn có chắc muốn xóa những bản ghi này?");
-      if(!isConfirm) {
+      if (!isConfirm) {
         return;
       }
     }
 
     const inputsChecked = document.querySelectorAll("input[name='id']:checked");
-
-    if(inputsChecked.length > 0){
+    if (inputsChecked.length > 0) {
       const ids = [];
       const inputIds = formChangeMulti.querySelector("input[name='ids']");
 
-      inputsChecked.forEach(input => {
+      inputsChecked.forEach((input) => {
         const id = input.value;
-        ids.push(id);
+        if (type == "change-position") {
+          const position = input
+            .closest("tr")
+            .querySelector("input[name='position']").value;
+
+            ids.push(`${id}-${position}`);
+        } else {
+          ids.push(id);
+        }
       });
 
       inputIds.value = ids.join(", ");
@@ -176,7 +182,7 @@ if(formChangeMulti){
     }
   });
 }
-//End Form Change Multi
+// End form-change-multi
 
 //Show Alert
 const showAlert = document.querySelector("[show-alert]");

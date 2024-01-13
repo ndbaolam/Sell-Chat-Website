@@ -47,6 +47,7 @@ block main
                         th Hình ảnh
                         th Tiêu đề
                         th Giá
+                        th Vị trí
                         th Trạng thái
                         th Hành động
 
@@ -69,6 +70,14 @@ block main
                                 )
                             td #{item.title}
                             td #{item.price}$
+                             td
+                                input(
+                                type="number"
+                                name="position"
+                                value=item.position
+                                style="width: 60px"
+                                min="1"
+                                )
                             td
                                 if(item.status == "active")
                                     a(
