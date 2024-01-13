@@ -22,12 +22,24 @@ module.exports.index = async (req, res) => {
     });
 }
 
-//[GET] /products/detail
-module.exports.detail =  (req, res) => {
-    res.send("Chi tiet san pham");
+// [GET] /products/:slug
+module.exports.detail = async (req, res) => {
+    try {
+      const slug = req.params.slug;
+  
+      const product = await Product.findOne({
+        slug: slug,
+        deleted: false,
+        status: "active"
+      });
+  
+      console.log(product);
+  
+      res.render("client/pages/products/detail", {
+        pageTitle: product.title,
+        product: product
+      });
+    } catch (error) {
+      res.redirect("/");
+    }
 }
-
-//[GET] /products/edit
-module.exports.edit = (req, res) => {
-    res.send("Chinh sua san pham");
-};

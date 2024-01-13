@@ -1,10 +1,14 @@
 const express = require("express");
 const router = express.Router();
+
+//Upload image
 const multer  = require('multer');
+const uploadCloud = require("../../middlewares/admin/uploadCloud.middleware");
+//End upload image
 
-const storageMulter = require("../../helpers/storage-multer.helper");
+//const storageMulter = require("../../helpers/storage-multer.helper");
 
-const upload = multer({ storage: storageMulter() });
+const upload = multer();
 
 const controller = require("../../controller/admin/product.controller");
 
@@ -32,12 +36,27 @@ router.get("/create", controller.create);
 router.post(
     "/create",
     upload.single('thumbnail'),
+    uploadCloud.uploadSingle,
     validate.createPost,
     controller.createPost
 );
 
 router.get("/edit/:id", controller.edit);
 
+router.patch(
+    "/edit/:id",
+    upload.single('thumbnail'),
+    uploadCloud.uploadSingle,
+    validate.createPost,
+    controller.editPatch
+);
+
 router.get("/detail/:id", controller.detail);
+
+//Recover Page
+router.get("/recover", controller.recover);
+router.patch("/recover/:id", controller.recoverPatch);
+router.delete("/recover/:id", controller.deletePermanent);
+//End recover page
 
 module.exports = router;

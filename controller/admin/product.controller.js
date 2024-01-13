@@ -158,7 +158,7 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
     try {
         const product = await Product.findOne({
-            id: req.body.id,
+            _id: req.params.id,
             deleted: false
         });
     
@@ -171,14 +171,131 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-//[GET] /admin/products/detail/:id
+//[PATCH] /admin/products/edit/:id
+module.exports.editPatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        req.body.price = parseInt(req.body.price);
+        req.body.discountPercentage = parseInt(req.body.discountPercentage);
+        req.body.stock = parseInt(req.body.stock);
+        if(req.body.position  == ""){
+            req.body.position = await Product.countDocuments() + 1;
+        } else {
+            req.body.position = parseInt(req.body.position);
+        }
+    
+        if(req.file && req.file.filename){
+            req.body.thumbnail = `/uploads/${ req.file.filename}`;
+        }
+    
+        await Product.updateOne({
+            _id: id,
+            deleted: false
+        }, req.body);
+    
+        req.flash("success", "Cập nhật sản phẩm thành công!");
+    
+        res.redirect(`/${systemConfig.prefixAdmin}/products/`);
+    } catch (error) {
+        res.redirect(`/${systemConfig.prefixAdmin}/products/`);
+    }
+}
+
+// [GET] /admin/products/detail/:id
 module.exports.detail = async (req, res) => {
-    const id = req.params.id;
-    const product = await Product.findOne({
+    try {
+      const id = req.params.id;
+  
+      const product = await Product.findOne({
         _id: id,
         deleted: false
-    });
-    res.render("admin/pages/products/detail.pug",{
+      });
+  
+      console.log(product);
+  
+      res.render("admin/pages/products/detail", {
+        pageTitle: "Chi tiết sản phẩm",
         product: product
+      });
+    } catch (error) {
+      res.redirect(`/${systemConfig.prefixAdmin}/products`);
+    }
+};
+
+//[GET] /admin/product/recover
+module.exports.recover = async (req, res) => {
+    try {
+        //Filter
+        const filterState = filterStateHelper(req.query);
+        //End Filter
+
+        const find = {
+            deleted: true,
+        }
+
+        if(req.query.status){
+            find.status = req.query.status;
+        }
+
+        //Search
+        if(req.query.keyword){
+            const regex = new RegExp(req.query.keyword, "i");
+            find.title = regex;
+        }
+        //End Search
+        
+        //Pagination
+        const countProducts = await Product.countDocuments(find);
+        const objectPagination = paginationHelper(4, req.query, countProducts);
+        //End Pagination
+
+        const products = await Product.find(find)
+            .sort({
+                position: "desc"
+            })
+            .limit(objectPagination.limitItems)
+            .skip(objectPagination.skip);
+
+        res.render("admin/pages/products/recover.pug", {
+            pageTitle: "Trang khôi phục sản phẩm",
+            products: products,
+            filterState: filterState,
+            keyword: req.query.keyword,
+            pagination: objectPagination
+        });
+    } catch (error) {
+        console.log(error);
+        res.redirect(`/${systemConfig.prefixAdmin}/products`);
+    }
+};
+
+//[PATCH] /admin/products/recover/:id
+module.exports.recoverPatch = async (req, res) => {
+    const id = req.params.id;
+
+    await Product.updateOne({
+        _id: id,
+    }, {
+        deleted: false
     });
+
+    req.flash('success', 'Khôi phục sản phẩm thành công!');
+
+    res.redirect("back");
 }
+
+// [DELETE] /admin/products/recover/:id
+module.exports.deletePermanent = async (req, res) => {
+    try {
+      const id = req.params.id;
+  
+      await Product.deleteOne({
+        _id: id
+      });
+      req.flash('success', 'Đã xoá vĩnh viễn sản phẩm');
+    } catch (error) {
+      console.log(error);
+    }
+    res.redirect("back");
+  }
