@@ -18,10 +18,10 @@ const routesAdmin = require("./routes/admin/index.route.js");
 const app = express();
 const port = process.env.PORT;
 
-app.set("views", "./views");
+app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
 app.use(methodOverride('_method'))
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 
 //flash
 app.use(cookieParser('BaoLamIuMinhAnh'));
