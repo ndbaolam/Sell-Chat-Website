@@ -260,7 +260,7 @@ module.exports.recover = async (req, res) => {
         
         //Pagination
         const countProducts = await Product.countDocuments(find);
-        const objectPagination = paginationHelper(4, req.query, countProducts);
+        const objectPagination = paginationHelper(5, req.query, countProducts);
         //End Pagination
 
         const products = await Product.find(find)

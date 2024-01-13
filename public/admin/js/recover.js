@@ -30,7 +30,7 @@ if(buttonDelete.length > 0){
             if(isConfirm){
                 const id = button.getAttribute("data-id");
                 const action = `${path}/${id}?_method=DELETE`;
-                
+
                 formRecover.action = action;
                 formRecover.submit();
             }
@@ -38,3 +38,23 @@ if(buttonDelete.length > 0){
     });
 }
 //End Permanent Delete Item
+
+//Pagination
+const buttonsPagination = document.querySelectorAll("[button-pagination]");
+if(buttonsPagination.length > 0){
+  buttonsPagination.forEach((button) => {
+    button.addEventListener("click", () => {
+      let url = new URL(window.location.href);
+      const page = button.getAttribute("button-pagination");
+
+      if(page) {
+        url.searchParams.set("page", page);
+      } else {
+        url.searchParams.delete("page");
+      }
+      
+      window.location.href = url.href;
+    });
+  });
+}
+//End Pagination
