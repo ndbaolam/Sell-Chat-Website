@@ -43,5 +43,5 @@ routesClient(app);
 routesAdmin(app);
 
 app.listen(port, () => {
-    console.log(`App listening on prot ${port}`);
+    console.log(`App listening on port ${port}`);
 });

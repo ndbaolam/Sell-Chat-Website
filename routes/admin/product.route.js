@@ -12,7 +12,7 @@ const upload = multer();
 
 const controller = require("../../controller/admin/product.controller");
 
-const validate = require("../../validates/product.validate");
+const validate = require("../../validates/admin/product.validate");
 
 router.get("/", controller.index);
 
