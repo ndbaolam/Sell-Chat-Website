@@ -1,7 +1,10 @@
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 const filterStateHelper = require("../../helpers/filter-state.helper");
 const paginationHelper = require("../../helpers/pagination.helper");
 const systemConfig = require("../../config/system");
+
+const createTreeHelper = require("../../helpers/create-tree.helper");
 
 //[GET] /admin/products
 module.exports.index = async (req, res) => {
@@ -147,8 +150,17 @@ module.exports.changeMulti = async (req, res) => {
 }
 
 //[GET] /admin/products/create
-module.exports.create = (req, res) => {
-    res.render("admin/pages/products/create.pug");
+module.exports.create = async (req, res) => {
+    const records = await ProductCategory.find({
+        deleted: false,
+    });
+
+    const newRecords = createTreeHelper(records);
+
+    res.render("admin/pages/products/create.pug", {
+        pageTitle:"Thêm mới sản phẩm",
+        records: newRecords
+    });
 }
 
 //[POST] /admin/products/create
