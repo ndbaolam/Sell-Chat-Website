@@ -1,4 +1,5 @@
 const ProductCategory = require("../../models/product-category.model");
+const Product = require("../../models/product.model");
 const systemConfig = require("../../config/system");
 
 const createTreeHelper = require("../../helpers/create-tree.helper");
@@ -75,7 +76,7 @@ module.exports.edit = async (req, res) => {
     }
   };
 
-//[PATCH] /admin/products/edit/:id
+//[PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
         if(req.body.position  == ""){
@@ -100,3 +101,27 @@ module.exports.editPatch = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/products-category/`);
     }
 }
+
+// [GET] /admin/products-category/detail/:id
+module.exports.detail = async (req, res) => {
+    try {  
+      const products = await Product.find({
+        product_category_id: req.params.id,
+        deleted: false
+      });
+
+      const productCategory = await ProductCategory.findOne({
+        _id: req.params.id,
+        deleted: false
+      })
+
+      res.render("admin/pages/products-category/detail", {
+        pageTitle: "Chi tiết sản phẩm",
+        products: products,
+        productCategory: productCategory
+      });
+
+    } catch (error) {
+      res.redirect(`/${systemConfig.prefixAdmin}/products`);
+    }
+};
