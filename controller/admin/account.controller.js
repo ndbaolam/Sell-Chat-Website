@@ -73,3 +73,20 @@ module.exports.edit = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
     }    
 }
+
+//[PATCH] /admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+    if(req.body.password){
+        req.body.password = md5(req.body.password);
+    } else {
+        delete req.body.password;
+    }
+
+    await Account.updateOne({
+        _id: req.params.id,
+    }, req.body);
+
+    req.flash("success", "Cập nhật tài khoản thành công");
+    
+    res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+}
