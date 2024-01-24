@@ -51,3 +51,25 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
 };
+
+//[GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+    try {
+        const data = await Account.findOne({
+            _id: req.params.id,
+            deleted: false,
+        });
+    
+        const roles = await Role.find({
+            deleted: false,
+        });
+    
+        res.render('admin/pages/accounts/edit',{
+            pageTitle: "Chỉnh sửa sản phẩm",
+            data: data,
+            roles: roles
+        });
+    } catch (error) {
+        res.redirect(`/${systemConfig.prefixAdmin}/accounts`);
+    }    
+}
