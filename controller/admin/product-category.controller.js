@@ -32,6 +32,7 @@ module.exports.create = async (req, res) => {
 
 //[POST] /admin/products-category/create
 module.exports.createPost = async (req, res) => {
+  if(res.locals.role.permissions.includes("products-category_create")){
     if(req.body.position  == ""){
         req.body.position = await ProductCategory.countDocuments() + 1;
     } else {
@@ -48,6 +49,9 @@ module.exports.createPost = async (req, res) => {
     req.flash("success", "Thêm mới danh mục sản phẩm thành công!");
 
     res.redirect(`/${systemConfig.prefixAdmin}/products-category/`);
+  } else {
+    res.send("403");
+  }
 }
 
 // [GET] /admin/products-category/edit/:id
