@@ -24,7 +24,10 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    deletedAt: Date,
+    deletedBy: {
+        deletedAt: Date,
+        accountId: String,
+    },
     createdBy: {
         accountId: String,
         createdAt: Date
