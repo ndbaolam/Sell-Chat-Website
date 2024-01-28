@@ -76,10 +76,16 @@ module.exports.changeStatus = async (req, res) => {
     const status = req.params.status;
     const id = req.params.id;
 
+    const objectUpdatedBy = {
+        accountId: res.locals.user.id,
+        updatedAt: new Date()
+    };
+
     await Product.updateOne({
         _id: id,
     }, {
-        status: status
+        status: status,
+        $push: {updateBy: objectUpdatedBy}
     });
 
     req.flash('success', 'Cập nhật trạng thái thành công!');
@@ -122,13 +128,19 @@ module.exports.changeMulti = async (req, res) => {
     switch (type) {
         case "inactive":
         case "active":
+            const objectUpdatedBy = {
+                accountId: res.locals.user.id,
+                updatedAt: new Date()
+            };
+
             await Product.updateMany({
                 _id: {
                     $in: ids
                 }
                 //Tìm ra các _id có ở bên trong mảng ids
             }, {
-                status: type
+                status: type,
+                $push: {updateBy: objectUpdatedBy}
             });
 
             req.flash('success', 'Cập nhật trạng thái thành công!');
@@ -241,11 +253,15 @@ module.exports.edit = async (req, res) => {
 //[PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
-        const id = req.params.id;
+        const objectUpdatedBy = {
+            accountId: res.locals.user.id,
+            updatedAt: new Date()
+        };
 
         req.body.price = parseInt(req.body.price);
         req.body.discountPercentage = parseInt(req.body.discountPercentage);
         req.body.stock = parseInt(req.body.stock);
+
         if (req.body.position == "") {
             req.body.position = await Product.countDocuments() + 1;
         } else {
@@ -257,9 +273,12 @@ module.exports.editPatch = async (req, res) => {
         }
 
         await Product.updateOne({
-            _id: id,
+            _id: req.params.id,
             deleted: false
-        }, req.body);
+        }, {
+            ...req.body,
+            $push: {updateBy: objectUpdatedBy}
+        });
 
         req.flash("success", "Cập nhật sản phẩm thành công!");
 

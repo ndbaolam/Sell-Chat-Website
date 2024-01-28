@@ -32,6 +32,12 @@ const productSchema = new mongoose.Schema({
         accountId: String,
         createdAt: Date
     },
+    updateBy:[
+        {
+            accountId: String,
+            updateAt: Date
+        }
+    ]
 }, {
     timestamps: true
 });
