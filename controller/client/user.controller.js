@@ -123,7 +123,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
     //2: Gửi mã OTP qua email
     const subject = 'Mã OTP lấy mật khẩu';
     const content = `Mã OTP của bạn là <b>${otp}</b>. Vui lòng không chia sẻ!`;
-    
+
     sendMailHelper.sendMail(email, subject, content);
 
     res.redirect(`/user/password/otp?email=${email}`);
@@ -166,14 +166,14 @@ module.exports.otpPasswordPost = async (req, res) => {
     res.redirect(`/user/password/reset`);
 };
 
-// [GET] /user/password/otp
+// [GET] /user/password/reset
 module.exports.resetPassword = async (req, res) => {
     res.render("client/pages/user/reset-password", {
       pageTitle: "Đổi mật khẩu",
     });
 };
 
-// [POST] /user/password/otp
+// [POST] /user/password/reset
 module.exports.resetPasswordPost = async (req, res) => {
     const password = req.body.password;
     const tokenUser = req.cookies.tokenUser;

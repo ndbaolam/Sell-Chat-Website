@@ -30,20 +30,31 @@ header.header
         .inner-menu
           ul
             li
-              a(href="/") Trang chủ
+              .icon
+                a(href="/") 
+                  img(src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Trang chủ")
             li(class="sub-menu")
-              a(href="/products") Sản phẩm
+              a(href="/products") 
+                .icon
+                  img(src="https://upload.wikimedia.org/wikipedia/commons/1/14/Product_sample_icon_picture.png" alt="Sản phẩm")
               if(layoutCategoryProducts)
                 +sub-menu(layoutCategoryProducts)
             li
-              a(href="/cart") Giỏ hàng (#{cart ? cart.products.length : 0})
-
+              .icon 
+                a(href="/cart")(#{cart ? cart.products.length : 0})
+                  img(src="https://static-00.iconduck.com/assets.00/shopping-cart-icon-2048x2047-gv68pvgw.png" alt="Giỏ hàng")
             if(!user)
               li
-                a(href="/user/login") Đăng nhập
+                .icon
+                  a(href="/user/login") 
+                    img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVXYHNZN7s4uWw7N4wHU7tsEa4jJ5S5rmieA&usqp=CAU" alt="Đăng nhập")
               li
-                a(href="/user/register") Đăng ký
+                .icon
+                  a(href="/user/register")
+                    img(src="https://w7.pngwing.com/pngs/681/874/png-transparent-plus-sign-computer-icons-button-user-register-button-silhouette-internet-area.png" alt="Đăng ký")
             else
               li
-                a(href="/user/logout") Đăng xuất
+                .icon
+                  a(href="/user/logout") 
+                    img(src="https://static-00.iconduck.com/assets.00/logout-icon-1024x922-d6v5rw11.png" alt="Đăng xuất")
             
