@@ -129,3 +129,20 @@ module.exports.detail = async (req, res) => {
       res.redirect(`/${systemConfig.prefixAdmin}/products`);
     }
 };
+
+//[GET] /delete/:id
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    await ProductCategory.updateOne({
+      _id: id
+    }, {
+      deleted: true
+    });
+
+    res.redirect('back');
+  } catch (error) {
+    res.redirect('back');
+  }
+}
