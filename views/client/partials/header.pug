@@ -41,7 +41,7 @@ header.header
                 +sub-menu(layoutCategoryProducts)
             li
               .icon 
-                a(href="/cart")(#{cart ? cart.products.length : 0})
+                a(href="/cart") #{cart ? cart.products.length : 0}
                   img(src="https://static-00.iconduck.com/assets.00/shopping-cart-icon-2048x2047-gv68pvgw.png" alt="Giỏ hàng")
             if(!user)
               li
