@@ -25,10 +25,7 @@ const port = process.env.PORT;
 //SocketIO
 const server = http.createServer(app);
 const io = new Server(server);
-
-io.on('connection', (socket) => {
-    console.log('connected successfully!', socket.id);
-});
+global._io = io;
 //End SocketIO
 
 app.set("views", `${__dirname}/views`);
@@ -48,7 +45,7 @@ app.use(flash());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
-//App global variable
+//App global variable - just for Pug
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.moment = moment;
 
