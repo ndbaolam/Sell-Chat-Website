@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 const moment = require('moment');
+const http = require('http');
+const { Server } = require("socket.io");
 
 dotenv.config();
 
@@ -19,6 +21,15 @@ const routesAdmin = require("./routes/admin/index.route.js");
 
 const app = express();
 const port = process.env.PORT;
+
+//SocketIO
+const server = http.createServer(app);
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+    console.log('connected successfully!', socket.id);
+});
+//End SocketIO
 
 app.set("views", `${__dirname}/views`);
 app.set("view engine", "pug");
@@ -44,6 +55,6 @@ app.locals.moment = moment;
 routesClient(app);
 routesAdmin(app);
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
