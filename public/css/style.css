@@ -27,10 +27,13 @@
   
   /* Footer */
 .footer {
-    background: #333;
+  bottom: 0;
+  right: 0;
+    position: fixed;
+    z-index: 999;
     color: #fff;
-    text-align: center;
-    padding: 10px;
+    text-align: left;
+    padding: 5px;
 }
   /* End Footer */
   
@@ -365,11 +368,11 @@ body {
   position: relative;
   background: #ffffff;
   border-radius: 50%;
-  padding: 15px;
+  padding: 10px;
   margin: 10px;
   width: 50px;
   height: 50px;
-  font-size: 18px;
+  font-size: 25px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -420,7 +423,7 @@ body {
 .wrapper .facebook:hover,
 .wrapper .facebook:hover .tooltip,
 .wrapper .facebook:hover .tooltip::before {
-  background: #1877F2;
+  background: hsl(214, 89%, 52%);
   color: #ffffff;
 }
 
@@ -451,4 +454,31 @@ body {
   background: #CD201F;
   color: #ffffff;
 }
+.youtube {
+  background-color: #CD201F !important;
+  color: #fff !important;
+}
+.github {
+  background-color: #333333 !important;
+  color: #fff !important;
+}
+.instagram {
+  background-color: #E4405F !important;
+  color: #fff !important;
+}
+.twitter {
+  background-color: #1DA1F2 !important;
+  color: #fff !important;
+}
 /*End media*/
+
+/*Login Facebook*/
+.facebook {
+  background-color: #3b5998 !important;
+  color: #fff !important;
+}
+.fa-facebook-f:before,
+.fa-facebook:before {
+  content: "\f09a";
+}
+/*End Login Facebook*/

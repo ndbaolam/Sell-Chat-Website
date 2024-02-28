@@ -1,4 +1,5 @@
 const express = require("express");
+const passport = require('passport');
 const router = express.Router();
 
 const controller = require("../../controller/client/user.controller");
@@ -50,5 +51,17 @@ router.get(
     authMiddleware.requireAuth,
     controller.info
 );
+
+//Login Facebook
+router.get('/auth/facebook', passport.authenticate('facebook', {
+    scope: ['public_profile', 'email']
+}));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/',
+    failureRedirect: '*'
+}));
+//End Login Facebook
 
 module.exports = router;
