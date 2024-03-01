@@ -362,7 +362,6 @@ body {
 
 
 .wrapper {
-  display: inline-flex;
   list-style: none;
 }
 
@@ -484,3 +483,14 @@ body {
   content: "\f09a";
 }
 /*End Login Facebook*/
+
+/*emoji-picker*/
+.tooltip-icon{
+  visibility: hidden;
+}
+
+.tooltip-icon.shown{
+  visibility: visible;
+  opacity: 1;
+}
+/**End emoji-picker/
