@@ -8,6 +8,14 @@ const userSchema = new mongoose.Schema(
     tokenUser: String,
     phone: String,
     avatar: String,
+    acceptFriends: Array,
+    requestFriends: Array,
+    friendsList: [
+      {
+        user_id: String,
+        room_chat_id: String
+      }
+    ],
     status: {
       type: String,
       default: "active"
