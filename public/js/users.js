@@ -13,7 +13,7 @@ if(listBtnAddFriend.length > 0) {
 }
 //End Add Friend Request
 
-// Request friend
+// CLIENT_CANCEL_FRIEND
 const listBtnCancelFriend = document.querySelectorAll("[btn-cancel-friend]");
 if(listBtnCancelFriend.length > 0){
     listBtnCancelFriend.forEach(button => {
@@ -26,4 +26,19 @@ if(listBtnCancelFriend.length > 0){
         });
     });
 }
-// End Request Friend
+// CLIENT_CANCEL_FRIEND
+
+//CLIENT_REFUSE_FRIEND
+const listBtnRefuseFriend = document.querySelectorAll('[btn-refuse-friend]');
+if(listBtnRefuseFriend.length > 0){
+    listBtnRefuseFriend.forEach(button => {
+        button.addEventListener('click', () => {
+            button.closest(".box-user").classList.add("refuse");
+
+            const userId = button.getAttribute('btn-refuse-friend');
+
+            socket.emit('CLIENT_REFUSE_FRIEND', userId);
+        });
+    });
+}
+//End CLIENT_REFUSE_FRIEND
