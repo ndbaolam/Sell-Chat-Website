@@ -12,12 +12,14 @@ module.exports.notFriend = async (req, res) => {
 
     const requestFriends = res.locals.user.requestFriends;
     const acceptFriends = res.locals.user.acceptFriends;
+    const friendsListId = res.locals.user.friendsList.map(item => item.user_id);
 
     const users = await User.find({
         $and: [
         { _id: { $ne: userId } },
         { _id: { $nin: requestFriends } },
-        { _id: { $nin: acceptFriends } }
+        { _id: { $nin: acceptFriends } },
+        { _id: { $nin: friendsListId } }
         ],
         status: "active",
         deleted: false
@@ -71,4 +73,24 @@ module.exports.accept = async (req, res) => {
     } catch (error) {
         res.send(error);
     }
+}
+
+//[GET] /users/friends
+module.exports.friends = async (req, res) => {
+    // SocketIO
+    usersSocket(res);
+    // End SocketIO
+    
+    const friendsListId = res.locals.user.friendsList.map(item => item.user_id);
+
+    const users = await User.find({
+        _id: { $in: friendsListId},
+        status: "active",
+        deleted: false
+    }).select('id fullName avatar');
+
+    res.render("client/pages/users/friends", {
+        pageTitle: "Danh sách bạn bè",
+        users: users
+    });
 }
