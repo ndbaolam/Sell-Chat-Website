@@ -57,3 +57,10 @@ if(listBtnAcceptFriend.length > 0){
     });
 }
 //End CLIENT_ACCEPT_FRIEND
+
+//SERVER_RETURN_LENGTH_ACCEPT_FRIEND
+socket.on('SERVER_RETURN_LENGTH_ACCEPT_FRIEND', (data) => {
+    const badgeUsersAccept = document.querySelector(`[badge-users-accept="${user.id}"]`);
+    badgeUsersAccept.innerHTML =  data.lengthAcceptFriends;
+});
+//End SERVER_RETURN_LENGTH_ACCEPT_FRIEND

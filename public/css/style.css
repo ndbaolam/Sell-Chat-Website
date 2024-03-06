@@ -363,6 +363,7 @@ body {
 
 .wrapper {
   list-style: none;
+  display:inline-flex;
 }
 
 .wrapper .icon {
