@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const Cart = require('../../models/cart.model');
 const ForgotPassword = require('../../models/forgot-password.model');
 const md5 = require('md5');
 
@@ -77,12 +78,47 @@ module.exports.loginPost = async (req, res) => {
 
     res.cookie("tokenUser", user.tokenUser);
 
+    await Cart.updateOne({
+        _id: req.cookies.cartId
+    }, {
+        user_id: user.id
+    });
+
+    await User.updateOne({
+        _id: user.id
+    }, {
+        statusOnline: "online"
+    });
+
+    _io.once('connection', (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_USER_STATUS", {
+            userId: user.id,
+            status: "online"
+        });
+    });
+
     res.redirect("/");
 };
 
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {
     res.clearCookie("tokenUser");
+
+    const userId = res.locals.user.id;
+
+    await User.updateOne({
+        _id: userId
+    }, {
+        statusOnline: "offline"
+    });
+
+    _io.once('connection', (socket) => {
+        socket.broadcast.emit("SERVER_RETURN_USER_STATUS", {
+            userId: user.id,
+            status: "offline"
+        });
+    });
+
     res.redirect("/");
 };
 
