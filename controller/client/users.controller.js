@@ -80,14 +80,19 @@ module.exports.friends = async (req, res) => {
     // SocketIO
     usersSocket(res);
     // End SocketIO
-    
-    const friendsListId = res.locals.user.friendsList.map(item => item.user_id);
+    const friendList = res.locals.user.friendsList;
+    const friendsListId = friendList.map(item => item.user_id);
 
     const users = await User.find({
         _id: { $in: friendsListId},
         status: "active",
         deleted: false
     }).select('id fullName avatar statusOnline');
+
+    for (const user of users) {
+        const infoUser = friendList.find(item => item.user_id == user.id);
+        user.roomChatId = infoUser.room_chat_id;
+    }
 
     res.render("client/pages/users/friends", {
         pageTitle: "Danh sách bạn bè",

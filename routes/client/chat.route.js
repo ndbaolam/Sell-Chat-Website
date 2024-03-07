@@ -3,6 +3,6 @@ const router = express.Router();
 
 const controller = require("../../controller/client/chat.controller");
 
-router.get('/', controller.index);
+router.get('/:roomChatId', controller.index);
 
 module.exports = router;
