@@ -10,8 +10,9 @@ block main
     .row
       .col-12
         form(
-          action=`/rooms-chat/create`
+          action=`/rooms-chat/edit/${roomChat.id}?_method=PATCH`
           method="POST"
+          enctype="application/x-www-form-urlencoded"
         )
           div(class="form-group")
             label(for="title") Tiêu đề
@@ -24,7 +25,7 @@ block main
               required
             )
           div(class="form-group")
-            label Thêm thành viên
+            label Chỉnh sửa thành viên
             each friend in friendsList
               div(class="form-check")
                 input(

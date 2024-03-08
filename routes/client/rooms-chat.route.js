@@ -11,4 +11,6 @@ router.post('/create', controller.createPost);
 
 router.get('/edit/:roomChatId', controller.edit);
 
+router.patch('/edit/:roomChatId', controller.editPatch);
+
 module.exports = router;

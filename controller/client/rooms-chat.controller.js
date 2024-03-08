@@ -92,3 +92,32 @@ module.exports.edit = async (req, res) => {
       roomChat: roomChat
     });
 }
+
+// [PATCH] /rooms-chat/edit/:roomChatId
+module.exports.editPatch = async (req, res) => {
+    const roomChatId = req.params.roomChatId;
+
+    const dataRoom = {
+        title: req.body.title,
+        typeRoom: "group",
+        users: []
+    };
+
+    dataRoom.users.push({
+        user_id: res.locals.user.id,
+        role: "superAdmin"
+    });
+
+    req.body.usersId.forEach(userId => {
+        dataRoom.users.push({
+            user_id: userId,
+            role: "user"
+        });
+    });
+
+    await RoomChat.updateOne({
+        _id: roomChatId
+    }, dataRoom);
+
+    res.redirect(`/chat/${roomChatId}`);
+};
