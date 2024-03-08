@@ -28,5 +28,13 @@ block main
               div(class="inner-buttons")
                 a(
                   href=`/chat/${room.id}`
-                  class="btn btn-sm btn-primary mr-1"
+                  class="btn btn-sm btn-primary mr-2"
                 ) Nhắn tin
+                a(
+                  href=`/rooms-chat/edit/${room.id}`
+                  class="btn btn-sm btn-primary mr-2"
+                ) Chỉnh sửa
+                a(
+                  href=`/rooms-chat/delete/${room.id}`
+                  class="btn btn-sm btn-primary mr-2"
+                ) Xoá

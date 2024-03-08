@@ -63,3 +63,32 @@ module.exports.createPost = async (req, res) => {
 
     res.redirect(`/chat/${roomChat.id}`);
 };
+
+//[GET] /rooms-chat/edit/:roomChatId
+module.exports.edit = async (req, res) => {
+    const roomChat = await RoomChat.findOne({
+        _id: req.params.roomChatId,
+        deleted: false
+    });
+
+    const friendsList = res.locals.user.friendsList;
+  
+    for (const friend of friendsList) {
+        const infoFriend = await User.findOne({
+            _id: friend.user_id
+        }).select("fullName avatar");
+    
+        friend.infoFriend = infoFriend;
+
+        const inRoomChat = roomChat.users.find(item => item.user_id == friend.user_id);
+        if(inRoomChat){
+            friend.inRoomChat = true;
+        }
+    }
+
+    res.render("client/pages/rooms-chat/edit", {
+      pageTitle: "Chỉnh sửa phòng",
+      friendsList: friendsList,
+      roomChat: roomChat
+    });
+}
