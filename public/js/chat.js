@@ -88,7 +88,7 @@ if(bodyChat) {
 const buttonIcon = document.querySelector('.button-icon');
 
 if(buttonIcon) {
-  const tooltip = document.querySelector('.tooltip');
+  const tooltip = document.querySelector('.tooltip-icon');
   Popper.createPopper(buttonIcon, tooltip);
 
   // Show Tooltip
